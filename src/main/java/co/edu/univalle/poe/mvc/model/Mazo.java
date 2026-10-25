@@ -50,7 +50,7 @@ public class Mazo {
     //ya que siguienteCarta empieza en cero y aumenta de uno en uno e incrementa cada vez
     public Carta repartirCarta(){
         if (!hayCartasDisponibles()){
-            return null;
+            throw new IllegalStateException("Mazo terminado");
         }
         Carta carta = cartas[siguienteCarta];
         siguienteCarta ++;
@@ -61,9 +61,6 @@ public class Mazo {
         return cartas.length - siguienteCarta;
     }
 }
-
-
-
 
 
 
