@@ -1,10 +1,11 @@
 package co.edu.univalle.poe.mvc.model;
 import java.util.Random;
-//CREAR MAZO , MESCLARLO , SON 52 CARTA, SE CREA ARREGLO PARA ELLO
+//CREAR MAZO , MEZCLARLO , SON 52 CARTA, SE CREA ARREGLO PARA ELLO
 public class Mazo {
     private Carta [] cartas;
     private  int siguienteCarta;
 
+    //CONSTRUCTOR
     public Mazo(){
         cartas = new Carta[52]; //arreglo de 52 espacios para objetos Carta.
         siguienteCarta = 0 ;

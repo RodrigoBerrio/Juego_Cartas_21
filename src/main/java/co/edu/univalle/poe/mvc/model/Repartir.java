@@ -31,6 +31,11 @@ public class Repartir {
         return mazo.hayCartasDisponibles();
     }
 
+    public int getCartasDisponibles(){  //Método para que Controller sepa cuantas cartas disponibles hay
+                                        // y a su vez Repartir consulta a Mazo
+        return mazo.getCartasDisponibles();
+    }
+
     //Averigua cuantas cartas tiene el jugador, retorna entero
     public int getCantidadCartas(){
         return mano.size(); // size es parte de los métodos de linkedList  que dice cuantas cartas tiene el jugador
@@ -41,5 +46,7 @@ public class Repartir {
     public LinkedList<Carta> getMano(){  //
         return new LinkedList<>(mano);
     }
+
+
 
 }
