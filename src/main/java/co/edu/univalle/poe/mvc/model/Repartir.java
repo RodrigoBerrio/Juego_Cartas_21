@@ -10,6 +10,8 @@ public class Repartir {
     //que solo guarda objetos de clase Cartas, llamada mano
     private LinkedList<Carta> manoComputador;
     private boolean me_planto;
+    private int saldo;
+    private  int apuesta;
 
     //Constructor, iniciamos repartiendo las cartas
     public Repartir(){
@@ -22,11 +24,13 @@ public class Repartir {
         mano.addLast(mazo.repartirCarta());  //llamo al método repartirCarta para que reparta
         mano.addLast(mazo.repartirCarta()); // Para iniciar el juego se requieren dos cartas al jugador,
                                             //Por eso se ejecuta dos veces
-        me_planto = true;
+        me_planto = false;
+        saldo = 1000;  //Jugador empieza con mil
+        apuesta = 0;  //Aun no ha apostado
     }
     //Pedir cartas
     public boolean pedirCarta(){
-        if (!mazo.hayCartasDisponibles()){  //Se pregunta ¿Hay cartas disponibles, si falso entonces se acabó
+        if (me_planto || !mazo.hayCartasDisponibles()){  //Se pregunta ¿Hay cartas disponibles y no se planto?
              return false;
         }
         mano.addLast(mazo.repartirCarta());
@@ -52,8 +56,8 @@ public class Repartir {
         return new LinkedList<>(mano);
     }
 
-    public boolean decido_Plantarme(){  // Con este método el jugador termina su partida
-        me_planto = false;
+    public void decido_Plantarme(){  // Con este método el jugador termina su partida
+        me_planto = true;
         juega_el_Computador();
     }
 
@@ -137,6 +141,28 @@ public class Repartir {
         }
         return "Empate";
     }
+
+    public boolean laApuestaesValida(int cantidad){//Sea un número entero, múltiplo de 10.
+                                                    // Sea como mínimo de 10 fichas.
+●	                                                //No supere el saldo disponible.
+        return cantidad >= 10 && cantidad % 10 == 0 && cantidad <=saldo;
+    }
+    public int getSaldo(){
+        return saldo;
+    }
+    public int getApuesta(){
+        return apuesta;
+    }
+    public boolean apostar(int cantidad){
+        if (!laApuestaesValida(cantidad)){ // Si la apuesta no es validad
+            return false;
+        }
+        apuesta = cantidad;
+        saldo = saldo - apuesta;
+        return true;
+
+    }
+
 
 
 
