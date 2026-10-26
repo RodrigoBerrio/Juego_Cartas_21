@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.io.IOException;
 
@@ -14,6 +16,12 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 420, 420);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+        stage.setOnCloseRequest(evento -> {
+            Alert alerta = new Alert(Alert.AlertType.CONFIRMATION, "¿Seguro que quieres cerrar el juego?");
+            if (alerta.showAndWait().orElse(ButtonType.CANCEL) != ButtonType.OK) {
+                evento.consume();
+            }
+        });
         stage.show();
     }
 }

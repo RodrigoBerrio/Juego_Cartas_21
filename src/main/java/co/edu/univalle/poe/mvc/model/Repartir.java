@@ -12,28 +12,29 @@ public class Repartir {
     private boolean me_planto;
     private int saldo;
     private  int apuesta;
+    private boolean rondaActiva;
 
-    //Constructor, iniciamos repartiendo las cartas
+    //Constructor, deja el juego listo sin cartas hasta que el juego halla iniciado
     public Repartir(){
         mazo = new Mazo(); //Se crea el objeto mazo, aquí se ejecuta el método constructor
         // cartas = new Carta[52]; //arreglo de 52 espacios para objetos Carta.
         //siguienteCarta = 0 ;crearCartas() y mezclar();
 
         mano = new LinkedList<>(); //Ya va a empezar el juego, mano vacía
-        manoComputador new LinkedList<>(); //La mano del computador
-        mano.addLast(mazo.repartirCarta());  //llamo al método repartirCarta para que reparta
-        mano.addLast(mazo.repartirCarta()); // Para iniciar el juego se requieren dos cartas al jugador,
-                                            //Por eso se ejecuta dos veces
+        manoComputador = new LinkedList<>(); //La mano del computador
+
         me_planto = false;
         saldo = 1000;  //Jugador empieza con mil
         apuesta = 0;  //Aun no ha apostado
+        rondaActiva = false;
     }
     //Pedir cartas
     public boolean pedirCarta(){
-        if (me_planto || !mazo.hayCartasDisponibles()){  //Se pregunta ¿Hay cartas disponibles y no se planto?
-             return false;
+        if (!rondaActiva || me_planto || !mazo.hayCartasDisponibles()){  //Se pregunta ¿Hay cartas disponibles y no se planto?
+             return false;                                              //y si no hay ronda activa
         }
         mano.addLast(mazo.repartirCarta());
+        revisarTurnoJugador(); //LLamo a revisarTurno para ver si no se pasado del 21
         return true;
     }
     public boolean hayCartasDisponibles(){
@@ -57,8 +58,12 @@ public class Repartir {
     }
 
     public void decido_Plantarme(){  // Con este método el jugador termina su partida
-        me_planto = true;
+       if (!rondaActiva || me_planto){ //Me pregunto (No hay ronda activa o me planto
+           return;
+       }
+        me_planto = true; //De lo contrario me planté, entonces , turno para el computador y termina la ronda
         juega_el_Computador();
+        terminarRonda();
     }
 
     public LinkedList<Carta> getManoComputador() {
@@ -162,6 +167,52 @@ public class Repartir {
         return true;
 
     }
+    public void pagar_Resultado() {
+        String resultado = hallarResultado(mano, manoComputador); //Llama al métdo hallarResultado ,con la mano del apostador y del computador
+        if (resultado.equals("Empate")) { //Si el resultado es empate
+            saldo = saldo + apuesta; //Devuelve las fichas, por eso suma
+        } else if (resultado.equals("Gana el apostador")) { //Si gana el apostador
+            if (esBlackjack(mano)) { //En caso de que gane con blackjack, le dan las fichas mas 2,5
+                saldo = saldo + apuesta * 5 / 2;
+            } else {        //De lo contrario le dan solo el doble
+                saldo = saldo + apuesta * 2;
+            }
+        }
+        apuesta = 0;  //deja la apuesta en cero. Si el método
+                    // se llamara dos veces por error, la segunda vez sumaría 0,
+                    // y así el saldo se actualiza una sola vez. se resetea el valor
+    }
+    public boolean iniciarRonda(int cantidad) { //Recibe como parametro lo que apuesta el jugador
+        if (rondaActiva || !apostar(cantidad)) { //Hay algo por lo que no se puede empezar el juego, o la apuesta no es multiplo de 10 por ejemplo
+            return false;  //si ya hay una ronda activa, o no se pudo hacer la apuesta, devuelve falso.
+        }
+        mazo = new Mazo();  //Generar un mazo nuevo
+        mano.clear();  //Aseguramos que no hay nada de la ronda anterior
+        manoComputador.clear(); //Aseguramos que no hay nada de la ronda anterior
+
+        me_planto = false;  //False significa que no se ha plantado aun
+        mano.addLast(mazo.repartirCarta()); //Se reparten las dos cartas
+        mano.addLast(mazo.repartirCarta());
+        rondaActiva = true;  //Ya está en marcha el juego
+        revisarTurnoJugador();
+        return true;
+    }
+    private void terminarRonda() { //Cerramos la ronda
+        me_planto = true; //como se plantó , sbloque al apostador
+        pagar_Resultado(); //Calcular el resultado de las manos
+        rondaActiva = false; //ya se acabó la ronda
+    }
+    private void revisarTurnoJugador() {
+        if (sePaso(mano)) {  //Nos preguntamos si el apostador se paso de la mano, si es asi, llama a a terminarRonda (supera 21)
+            terminarRonda();
+        } else if (calcularPuntaje(mano) == 21) { //Jugador llegó a 21, entonces me planto
+            decido_Plantarme();
+        }
+    }
+    public boolean isRondaActiva() {
+        return rondaActiva;
+    }
+
 
 
 
