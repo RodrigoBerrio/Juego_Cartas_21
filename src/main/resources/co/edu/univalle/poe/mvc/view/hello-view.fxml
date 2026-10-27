@@ -1,19 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="co.edu.univalle.poe.mvc.controller.RepartirController">
-    <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
-    </padding>
 
-    <TextArea fx:id="txtMano" prefHeight="150.0"/>
-    <Label fx:id="lblCantidadCartas"/>
-    <Label fx:id="lblDisponibles"/>
-    <Button fx:id="btnPedirCarta" text="Pedir carta" onAction="#onPedirCarta"/>
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.univalle.poe.mvc.controller.RepartirController">
+   <padding>
+      <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+   </padding>
+   <children>
+      <Label text="21 Black Jack" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="24.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" spacing="40.0">
+         <children>
+            <Label fx:id="lblSaldo" text="Saldo : 1000" />
+            <Label fx:id="lblApuesta" text="Apuesta : 0" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Label text="Apuestas :" />
+            <TextField fx:id="txtApuesta" promptText="100" />
+            <Button fx:id="btnIniciarRonda" mnemonicParsing="false" onAction="#onIniciarRonda" text="Iniciar ronda" />
+         </children>
+      </HBox>
+      <Label text="Mano del jugador" />
+      <TextArea fx:id="txtManoJugador" prefHeight="80.0" prefRowCount="3" prefWidth="200.0" />
+      <Label fx:id="lblPuntajeJugador" text="Puntaje : 0" />
+      <Label text="Mano del computador" />
+      <TextArea fx:id="txtManoComputador" prefHeight="80.0" prefWidth="200.0" />
+      <Label fx:id="lblPuntajeComputador" text="Puntaje : 0" />
+      <Label fx:id="lblMensaje" text="Escriba su apuesta y presione Iniciar ronda" />
+      <HBox alignment="CENTER" spacing="10.0">
+         <children>
+            <Button fx:id="btnPedirCarta" mnemonicParsing="false" onAction="#onPedirCarta" text="Pedir carta" />
+            <Button fx:id="btnPlantarse" mnemonicParsing="false" onAction="#onPlantarse" text="Plantarse" />
+            <Button mnemonicParsing="false" onAction="#onVerReglas" text="Ver reglas" />
+            <Button mnemonicParsing="false" onAction="#onCerrarJuego" text="Cerrar juego" />
+         </children>
+      </HBox>
+   </children>
 </VBox>

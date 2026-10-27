@@ -149,7 +149,7 @@ public class Repartir {
 
     public boolean laApuestaesValida(int cantidad){//Sea un número entero, múltiplo de 10.
                                                     // Sea como mínimo de 10 fichas.
-●	                                                //No supere el saldo disponible.
+	                                                //No supere el saldo disponible.
         return cantidad >= 10 && cantidad % 10 == 0 && cantidad <=saldo;
     }
     public int getSaldo(){

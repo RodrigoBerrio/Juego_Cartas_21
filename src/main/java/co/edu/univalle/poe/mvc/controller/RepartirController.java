@@ -106,7 +106,7 @@ public class RepartirController {
         }
         mostrarResultadoSiTermino();
     }
-    }
+
     @FXML
     private void onVerReglas() {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
